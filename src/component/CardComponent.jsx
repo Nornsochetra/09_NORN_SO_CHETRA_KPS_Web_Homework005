@@ -2,17 +2,20 @@ import React from "react";
 import Image from "next/image";
 import image from "../image/image.png";
 import cartoon from "../image/cartoon.png";
+import Link from "next/link";
 const CardComponentPage = () => {
   return (
     <div className="flex items-center justify-center gap-20 mt-20">
       <article className="w-72 h-80 relative">
-        <div className="rounded-3xl hover:brightness-75">
-          <Image
-            src={image}
-            alt="Black Monster's profile"
-            className="rounded-3xl"
-          />
-        </div>
+        <Link href="/book-categories">
+          <div className="rounded-3xl hover:brightness-75">
+            <Image
+              src={image}
+              alt="Black Monster's profile"
+              className="rounded-3xl"
+            />
+          </div>
+        </Link>
         <div className="flex gap-3 absolute top-1 bg-white p-1 rounded-full ml-3 mt-2 w-24">
           <svg
             viewBox="0 0 24 24"
@@ -55,14 +58,16 @@ const CardComponentPage = () => {
         </div>
       </article>
       <article className="w-72 h-80 relative">
-        <div className="hover:brightness-75">
-          <Image
-            src={cartoon}
-            alt="Black Monster's profile"
-            className="rounded-3xl"
-          />
-        </div>
-        <div className="flex gap-3 absolute top-1 bg-white p-1 rounded-full ml-3 mt-2 w-24">
+        <Link href={"/old-school-cartoons"}>
+          <div className="hover:brightness-75">
+            <Image
+              src={cartoon}
+              alt="Black Monster's profile"
+              className="rounded-3xl"
+            />
+          </div>
+        </Link>
+        <div className="flex gap-3 absolute top-1 bg-white p-1 rounded-full ml-3 mt-2 w-29">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -99,7 +104,7 @@ const CardComponentPage = () => {
             </g>
           </svg>
           <p style={{ color: "var(--color-cyan)" }} className="font-medium">
-            Book
+            Cartoon
           </p>
         </div>
       </article>

@@ -47,7 +47,7 @@ const GetTypeBookById = async ({ params }) => {
       {/* Main Content */}
       <main className="max-w-full mx-30 min-h-full bg-white p-6 rounded-t-4xl shadow-md mt-40 flex flex-col md:flex-row relative">
         {/* Text Section */}
-        <div className="w-full md:w-2/3 p-4 mt-40 ml-10">
+        <div className="max-w-full md: p-4 mt-40 ml-10">
           <h1 className="text-3xl font-bold text-[#0B3954]">
             {data.book_title}
           </h1>
@@ -88,8 +88,8 @@ const GetTypeBookById = async ({ params }) => {
         </div>
 
         {/* Image Section */}
-        <div className="h-[200px] bg-blue-200 md:w-1/3 p-4 flex justify-center">
-          <div className="absolute top-[-120px] ml-14 w-56 h-72">
+        <div className="h-[200px] md:w-1/3 p-4 flex justify-center absolute top-[-120px] left-[870px]">
+          <div className="ml-14 w-56 h-72">
             <img
               src="https://i.pinimg.com/736x/4b/94/ff/4b94ff941e7263e7f67e01b77c7cfe41.jpg"
               alt="Tom and Jerry Picnic"
