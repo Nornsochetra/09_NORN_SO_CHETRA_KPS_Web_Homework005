@@ -3,11 +3,27 @@ import React from "react";
 import { sideBarData } from "@/data/SideBarData";
 import Image from "next/image";
 import profile from "../image/profile.png";
+import { FiMenu } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
 
 const SideBarComponentPage = () => {
   return (
     <>
-      <div className="fixed top-0 left-0 h-screen w-[300px] bg-white shadow-lg p-5 flex flex-col items-center">
+      {/* Mobile Menu Toggle */}
+      <input type="checkbox" id="menu-toggle" className="hidden peer" />
+      <label
+        htmlFor="menu-toggle"
+        className="md:hidden fixed top-4 left-4 z-50 bg-white shadow-md p-2 rounded-full cursor-pointer"
+      >
+        <FiMenu size={24} className="peer-checked:hidden" />
+        <IoMdClose size={24} className="hidden peer-checked:block" />
+      </label>
+
+      {/* Sidebar */}
+      <div
+        className="fixed top-0 left-0 min-h-full w-[300px] bg-white shadow-lg p-5 flex flex-col items-center 
+        -translate-x-full peer-checked:translate-x-0 md:translate-x-0 transition-transform duration-300 ease-in-out"
+      >
         {/* User Profile */}
         <div className="flex flex-col items-center mb-5">
           <Link href="#">
@@ -28,7 +44,7 @@ const SideBarComponentPage = () => {
         </div>
 
         {/* Navigation Links */}
-        <nav className="w-full flex-grow ">
+        <nav className="w-full flex-grow">
           <ul className="ml-5">
             {sideBarData.map((item, index) => {
               const isSpecialLink = [
