@@ -41,7 +41,7 @@ const SideBarComponentPage = () => {
                   key={index}
                   className={`flex items-center rounded-md h-12 px-4 text-black cursor-pointer ${
                     isSpecialLink
-                      ? "hover:bg-[#f5f7f8] hover:text-black hover:font-semibold"
+                      ? "hover:bg-[#f5f7f8] hover:text-black hover:font-medium"
                       : "hover:bg-[#f5f7f8]"
                   }`}
                   href={item.path}

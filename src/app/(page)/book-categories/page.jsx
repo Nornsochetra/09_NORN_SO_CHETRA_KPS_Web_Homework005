@@ -19,13 +19,18 @@ const BookCategoriesPage = async ({ searchParams }) => {
   // get book by book category id
   const bookCategory = searchParams?.query || "";
 
+  const selectedCategoryName =
+    dataBookCategorys.find(
+      (category) => String(category.id) === String(bookCategory)
+    )?.book_cate_name || "All Books";
+
   let bookCards = [];
   if (searchQuery) {
     const searchData = await searchBookByTitle(searchQuery);
     const allSearchResults = searchData.payload;
     if (bookCategory) {
       bookCards = allSearchResults.filter(
-        (book) => book.book_category_id === bookCategory
+        (book) => book.book_cate_id === bookCategory
       );
     } else {
       bookCards = allSearchResults;
@@ -43,9 +48,9 @@ const BookCategoriesPage = async ({ searchParams }) => {
       <section className="flex items-center">
         <article className=" min-h-screen w-full mx-14 mt-5 bg-white rounded-t-[50px]">
           <article className="flex justify-between">
-            <div className="mx-14 mt-11 bg-[#F5F7F8] p-3 w-32 text-center rounded-xl">
+            <div className="mx-14 mt-11 bg-[#F5F7F8] p-3 px-5 w-auto text-center rounded-xl">
               <p className="font-bold" style={{ color: "var(--color-cyan)" }}>
-                All Book
+                {selectedCategoryName}
               </p>
             </div>
             <div className="mx-14 mt-11">

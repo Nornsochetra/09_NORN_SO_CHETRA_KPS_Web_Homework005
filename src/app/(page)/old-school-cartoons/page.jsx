@@ -16,6 +16,11 @@ const OldScoolCartoonPage = async ({ searchParams }) => {
   const searchQuery = searchParams?.search || "";
   const cartoonGenre = searchParams?.query || "";
 
+  const selectedCategoryName =
+    cartoonCategories.find(
+      (category) => String(category.id) === String(cartoonGenre)
+    )?.cartoon_genre || "All Books";
+
   let cartoonCards = [];
 
   if (searchQuery) {
@@ -42,9 +47,9 @@ const OldScoolCartoonPage = async ({ searchParams }) => {
       <section className="flex items-center">
         <article className=" min-h-screen w-full mx-14 mt-5 bg-white rounded-t-[50px]">
           <article className="flex justify-between">
-            <div className="mx-14 mt-11 bg-[#F5F7F8] p-3 w-48 text-center rounded-xl">
+            <div className="mx-14 mt-11 bg-[#F5F7F8] p-3 w-auto px-5 text-center rounded-xl">
               <p className="font-bold" style={{ color: "var(--color-cyan)" }}>
-                Old School Cartoons
+                {selectedCategoryName}
               </p>
             </div>
             <div className="mx-14 mt-11">
