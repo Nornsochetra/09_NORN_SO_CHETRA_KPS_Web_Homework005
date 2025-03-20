@@ -3,14 +3,40 @@ import CartoonCardComponentPage from "./component/CartoonCardComponent";
 import {
   getAllCartoonCategoryService,
   getAllCartoonService,
+  getCartoonByCartoonGenreId,
+  searchCartoonByTitle,
 } from "@/service/cartoon-service";
+import SelectCartoonComponentPage from "./component/SelectComponent";
 
-const OldScoolCartoonPage = async () => {
+const OldScoolCartoonPage = async ({ searchParams }) => {
+  // get all cartoon data
   const dataRes = await getAllCartoonCategoryService();
-  const data = dataRes.payload;
+  const cartoonCategories = dataRes.payload;
 
-  const dataAllCartoon = await getAllCartoonService();
-  const dataAllCartoons = dataAllCartoon.payload;
+  const searchQuery = searchParams?.search || "";
+  const cartoonGenre = searchParams?.query || "";
+
+  let cartoonCards = [];
+
+  if (searchQuery) {
+    const searchData = await searchCartoonByTitle(searchQuery);
+    const allSearchResults = searchData.payload;
+
+    if (cartoonGenre) {
+      cartoonCards = allSearchResults.filter(
+        (cartoon) => cartoon.cartoon_category_id === cartoonGenre
+      );
+    } else {
+      cartoonCards = allSearchResults;
+    }
+  } else if (cartoonGenre) {
+    const cartoonCategoryData = await getCartoonByCartoonGenreId(cartoonGenre);
+    cartoonCards = cartoonCategoryData.payload;
+  } else {
+    const allCartoons = await getAllCartoonService();
+    cartoonCards = allCartoons.payload;
+  }
+
   return (
     <main>
       <section className="flex items-center">
@@ -22,30 +48,14 @@ const OldScoolCartoonPage = async () => {
               </p>
             </div>
             <div className="mx-14 mt-11">
-              <select
-                id="category-select"
-                className="p-2 box-border bg-[#f5f7f8] rounded-md w-64 outline-none focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-400"
-              >
-                <option>Select a Category</option>
-                {data.length > 0 ? (
-                  data.map((option, index) => (
-                    <option key={index} value="fiction">
-                      {option.cartoon_genre}
-                    </option>
-                  ))
-                ) : (
-                  <p className="text-center p-4 text-gray-500">
-                    No books available.
-                  </p>
-                )}
-              </select>
+              <SelectCartoonComponentPage selectItem={cartoonCategories} />
             </div>
           </article>
           <div
             className="border-b mx-14 mt-2"
             style={{ borderColor: "var(--color-aqua)" }}
           ></div>
-          <CartoonCardComponentPage cartoonCard={dataAllCartoons} />
+          <CartoonCardComponentPage cartoonCard={cartoonCards} />
         </article>
       </section>
     </main>

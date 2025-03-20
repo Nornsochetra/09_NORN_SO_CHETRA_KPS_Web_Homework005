@@ -3,14 +3,41 @@ import BookCategoriesCard from "./component/BookCategoriesCard";
 import {
   getAllBookCategoryService,
   getAllBookService,
+  getBookByBookCategoryId,
+  getBookByCategoryId,
+  searchBookByTitle,
 } from "@/service/book-service";
+import SelectBookComponentPage from "./component/SelectComponentPage";
 
-const BookCategoriesPage = async () => {
+const BookCategoriesPage = async ({ searchParams }) => {
+  // get all book category
   const dataBookCategory = await getAllBookCategoryService();
   const dataBookCategorys = dataBookCategory.payload;
 
-  const dataAllBook = await getAllBookService();
-  const dataAllBooks = dataAllBook.payload;
+  // search book by title
+  const searchQuery = searchParams?.search || "";
+  // get book by book category id
+  const bookCategory = searchParams?.query || "";
+
+  let bookCards = [];
+  if (searchQuery) {
+    const searchData = await searchBookByTitle(searchQuery);
+    const allSearchResults = searchData.payload;
+    if (bookCategory) {
+      bookCards = allSearchResults.filter(
+        (book) => book.book_category_id === bookCategory
+      );
+    } else {
+      bookCards = allSearchResults;
+    }
+  } else if (bookCategory) {
+    const bookCategoryData = await getBookByBookCategoryId(bookCategory);
+    bookCards = bookCategoryData.payload;
+  } else {
+    const allBooks = await getAllBookService();
+    bookCards = allBooks.payload;
+  }
+
   return (
     <main>
       <section className="flex items-center">
@@ -22,30 +49,14 @@ const BookCategoriesPage = async () => {
               </p>
             </div>
             <div className="mx-14 mt-11">
-              <select
-                id="category-select"
-                className="p-2 box-border bg-[#f5f7f8] rounded-md w-64 outline-none focus:outline-none focus:ring-2 focus:ring-gray-400 text-gray-400"
-              >
-                <option>Select a Category</option>
-                {dataBookCategorys.length > 0 ? (
-                  dataBookCategorys.map((option, index) => (
-                    <option key={index} value="fiction">
-                      {option.book_cate_name}
-                    </option>
-                  ))
-                ) : (
-                  <p className="text-center p-4 text-gray-500">
-                    No books available.
-                  </p>
-                )}
-              </select>
+              <SelectBookComponentPage selectItem={dataBookCategorys} />
             </div>
           </article>
           <div
             className="border-b mx-14 mt-2"
             style={{ borderColor: "var(--color-aqua)" }}
           ></div>
-          <BookCategoriesCard bookCards={dataAllBooks} />
+          <BookCategoriesCard bookCards={bookCards} />
         </article>
       </section>
     </main>

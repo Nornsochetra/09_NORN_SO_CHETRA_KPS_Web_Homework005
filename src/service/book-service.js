@@ -34,3 +34,29 @@ export const getBookById = async (proid) => {
     console.log(e);
   }
 };
+
+// Search book by title
+export const searchBookByTitle = async (seachParams) => {
+  try {
+    const res = await fetch(
+      `https://nextjs-homework005.vercel.app/api/book?search=${seachParams}`
+    );
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// get book by book category id
+export const getBookByBookCategoryId = async (categoryId) => {
+  try {
+    const res = await fetch(
+      `https://nextjs-homework005.vercel.app/api/book?query=${categoryId}`
+    );
+    const data = await res.json();
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+};
